@@ -18,4 +18,4 @@ Authentication systems constantly look up users by their email address during lo
 
 ## SQL vs NoSQL
 
-SQL is the correct choice for a school system. Academic data is highly structured and relies on strict rules—for example, a student must have a valid email, and they cannot enroll in the same class twice. SQL enforces these constraints natively at the schema level. Furthermore, calculating transcripts or generating class rosters requires joining multiple data points together, which relational databases are specifically optimized to do. A NoSQL document store would struggle to keep this highly connected data consistent.
+SQL is the correct choice for a school system. Academic data is highly structured and relies on strict rules; for example, a student must have a valid email, and they cannot enroll in the same class twice. SQL enforces these constraints natively at the schema level. Furthermore, calculating transcripts or generating class rosters requires joining multiple data points together, which relational databases are specifically optimized to do. A NoSQL document store would struggle to keep this highly connected data consistent.
