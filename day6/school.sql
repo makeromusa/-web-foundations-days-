@@ -1,4 +1,3 @@
--- Table definitions
 CREATE TABLE students (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
@@ -11,7 +10,6 @@ CREATE TABLE courses (
     credits INTEGER NOT NULL
 );
 
--- Join table for the many-to-many relationship
 CREATE TABLE enrolments (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     student_id INTEGER NOT NULL,
@@ -22,10 +20,8 @@ CREATE TABLE enrolments (
     UNIQUE (student_id, course_id) 
 );
 
--- Database Index (Addresses Grader Feedback)
-CREATE INDEX idx_enrolments_student_id ON enrolments(student_id);
+CREATE INDEX idx_enrolments_course_id ON enrolments(course_id);
 
--- Sample data insertion
 INSERT INTO students (name, email) VALUES
 ('Brian Kamau', 'kamau.b@school.edu'),
 ('Mercy Akinyi', 'akinyi.m@school.edu'),
@@ -44,33 +40,28 @@ INSERT INTO enrolments (student_id, course_id, grade) VALUES
 (2, 3, 'C'),
 (3, 2, 'B');
 
--- 1. All courses for one student (by name)
 SELECT courses.title, enrolments.grade
 FROM courses
 JOIN enrolments ON courses.id = enrolments.course_id
 JOIN students ON students.id = enrolments.student_id
 WHERE students.name = 'Brian Kamau';
 
--- 2. All students on one course
 SELECT students.name, students.email
 FROM students
 JOIN enrolments ON students.id = enrolments.student_id
 JOIN courses ON courses.id = enrolments.course_id
 WHERE courses.title = 'Data Structures and Algorithms';
 
--- 3. The number of students per course
 SELECT courses.title, COUNT(enrolments.student_id) AS student_count
 FROM courses
 LEFT JOIN enrolments ON courses.id = enrolments.course_id
 GROUP BY courses.id, courses.title;
 
--- 4. Students who have no enrolments
 SELECT students.name, students.email
 FROM students
 LEFT JOIN enrolments ON students.id = enrolments.student_id
 WHERE enrolments.id IS NULL;
 
--- 5. Update one enrolment's grade
 UPDATE enrolments
 SET grade = 'A'
 WHERE student_id = 2 AND course_id = 3;
